@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e14">
+  <title>단타 수익 계산 차트</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main class="app">
+  <header class="top">
+    <div><h1>단타 수익 계산 차트</h1><p>진입가를 잡고 차트를 터치해 예상 손익 확인</p></div>
+    <div class="status"><i id="dot"></i><span id="statusText">연결 중</span></div>
+  </header>
+
+  <section class="controls">
+    <select id="symbol" aria-label="코인 선택">
+      <option value="BTCUSDT">BTC / USDT</option><option value="ETHUSDT">ETH / USDT</option>
+      <option value="SOLUSDT">SOL / USDT</option><option value="XRPUSDT">XRP / USDT</option>
+      <option value="DOGEUSDT">DOGE / USDT</option>
+    </select>
+    <select id="interval" aria-label="시간봉 선택">
+      <option value="1m">1분봉</option><option value="5m" selected>5분봉</option><option value="15m">15분봉</option>
+    </select>
+  </section>
+
+  <section class="direction">
+    <button id="longBtn" class="long active">LONG 롱</button>
+    <button id="shortBtn" class="short">SHORT 숏</button>
+  </section>
+
+  <section class="pricebar">
+    <div><div id="currentPrice" class="price">-</div><small><span id="symbolLabel">BTCUSDT</span> · Binance 공개 시세</small></div>
+    <div class="labels"><span>진입가 <b id="entryLabel">미설정</b></span><span>비교가 <b id="targetLabel">-</b></span></div>
+  </section>
+
+  <div class="layout">
+    <section>
+      <div class="chartbox">
+        <canvas id="chart"></canvas>
+        <div class="legend"><span>EMA9 <b id="ema9">-</b></span><span>EMA21 <b id="ema21">-</b></span></div>
+      </div>
+      <div class="chartButtons">
+        <button id="entryNow">현재가로 진입 설정</button><button id="reset">초기화</button>
+      </div>
+      <p class="hint">PC: 차트 클릭 후 마우스 이동 · 폰: 차트를 터치하고 손가락을 움직이세요.</p>
+      <div id="error" class="error"></div>
+    </section>
+
+    <aside>
+      <section class="inputs">
+        <label>증거금 / 원금<input id="margin" type="number" inputmode="numeric" value="1000000" min="1000" step="10000"><em>원</em></label>
+        <label>레버리지<input id="leverage" type="number" inputmode="decimal" value="10" min="1" max="125" step="1"><em>X</em></label>
+        <label>수수료 / 편도<input id="fee" type="number" inputmode="decimal" value="0.05" min="0" max="5" step="0.001"><em>%</em></label>
+        <label>포지션 금액<strong id="position">10,000,000</strong><em>원</em></label>
+      </section>
+
+      <section class="result">
+        <div class="resultTop"><div><small>예상 순수익</small><span id="modeLabel">LONG 기준</span></div><strong id="net" class="neutral">0원</strong></div>
+        <div class="grid">
+          <div><small>가격 변동</small><b id="move">0.00%</b></div>
+          <div><small>레버리지 수익률</small><b id="levRoi">0.00%</b></div>
+          <div><small>수수료 전 손익</small><b id="gross">0원</b></div>
+          <div><small>예상 왕복 수수료</small><b id="fees">0원</b></div>
+          <div><small>원금 대비 순수익률</small><b id="netRoi">0.00%</b></div>
+          <div><small>가격 차이</small><b id="diff">-</b></div>
+        </div>
+        <p>예상 계산입니다. 펀딩비(선물 정산비), 슬리피지(체결 미끄러짐), 강제청산은 미반영. 실제 주문 기능 없음.</p>
+      </section>
+    </aside>
+  </div>
+</main>
+<script src="./app.js"></script>
+</body>
+</html>
